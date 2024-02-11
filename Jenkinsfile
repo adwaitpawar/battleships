@@ -15,12 +15,11 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Checkout') {
             steps {
                 // Checkout the code from GitHub for specific branches
                 checkout([$class: 'GitSCM', branches: [[name: 'refs/heads/master'], [name: 'refs/heads/dev']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
-
             }
         }
         
