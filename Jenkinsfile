@@ -1,20 +1,20 @@
 pipeline {
     agent any
     
-    stage('Record Trigger Branch') {
-    steps {
-        script {
-            // Record the name of the branch that triggered the pipeline
-            def triggerBranch = env.CHANGE_BRANCH ?: 'master'
-            echo "Triggered by branch: ${triggerBranch}"
-            
-            // You can save this information to a file, send it to an external system,
-            // or use it for any other purpose as needed in your pipeline
-            writeFile file: 'trigger_branch.txt', text: "${triggerBranch}"
+    stages {
+        stage('Record Trigger Branch') {
+            steps {
+                script {
+                    // Record the name of the branch that triggered the pipeline
+                    def triggerBranch = env.CHANGE_BRANCH ?: 'master'
+                    echo "Triggered by branch: ${triggerBranch}"
+                    
+                    // You can save this information to a file, send it to an external system,
+                    // or use it for any other purpose as needed in your pipeline
+                    writeFile file: 'trigger_branch.txt', text: "${triggerBranch}"
+                }
+            }
         }
-    }
-}
-
         
         stage('Checkout') {
             steps {
