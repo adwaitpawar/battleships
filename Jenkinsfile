@@ -16,11 +16,11 @@ pipeline {
     }
 
     // Checkout code for all branches (no filtering)
-    stage('Checkout') {
-      steps {
-        checkout([$class: 'GitSCM', userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
-      }
-    }
+   // stage('Checkout') {
+     // steps {
+       // checkout([$class: 'GitSCM', userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
+    //  }
+   // }
 
     // Print workspace contents (optional)
     stage('Print Workspace (Optional)') {
