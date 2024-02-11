@@ -68,4 +68,12 @@ pipeline {
             }
         }
         
-        stage('Deployment in EKS t
+        stage('Deployment in EKS through Helm') {
+            steps {
+                echo "Current branch name: ${env.GIT_BRANCH}"
+                echo "Deployment in EKS through Helm"
+                // Add deployment steps here
+            }
+        }
+    }
+}
