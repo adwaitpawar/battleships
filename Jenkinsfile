@@ -18,7 +18,7 @@ pipeline {
     // Checkout code for all branches (no filtering)
     stage('Checkout') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
+        checkout([$class: 'GitSCM', userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
       }
     }
 
