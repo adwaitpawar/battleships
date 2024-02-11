@@ -7,7 +7,7 @@ Watch the full video here: https://youtu.be/U64vIhh0TyM
 
 
 
-In this walkthrough we will do it:
+In this walkthrough we will:
 - make 5 draggable ships
 - rotate the ships prior to dragging
 - make the computer take random goes
