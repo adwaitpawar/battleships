@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Record the name of the branch that triggered the pipeline
-                    def triggerBranch = env.CHANGE_BRANCH ?: 'master'
+                    def triggerBranch = env.BRANCH_NAME ?: 'master'
                     echo "Triggered by branch: ${triggerBranch}"
                     
                     // You can save this information to a file, send it to an external system,
