@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Record the name of the branch that triggered the pipeline
-                    def triggerBranch = env.BRANCH_NAME ?: 'master'
+                    def triggerBranch = env.GIT_BRANCH ?: 'master'
                     echo "Triggered by branch: ${triggerBranch}"
                     
                     // You can save this information to a file, send it to an external system,
@@ -68,12 +68,4 @@ pipeline {
             }
         }
         
-        stage('Deployment in EKS through Helm') {
-            steps {
-                echo "Current branch name: ${env.BRANCH_NAME}"
-                echo "Deployment in EKS through Helm"
-                // Add deployment steps here
-            }
-        }
-    }
-}
+        stage('Deployment in EKS t
