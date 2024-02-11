@@ -18,8 +18,8 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                // Checkout the code from GitHub for specific branches
-                // checkout([$class: 'GitSCM', branches: [[name: '*/master'], [name: '*/dev']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
+                // Lightweight checkout support not available, falling back to full checkout
+                checkout scm
             }
         }
         
