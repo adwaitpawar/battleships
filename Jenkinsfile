@@ -1,79 +1,92 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Record Trigger Branch') {
-            steps {
-                script {
-                    // Record the name of the branch that triggered the pipeline
-                    def triggerBranch = env.CHANGE_BRANCH ?: 'master'
-                    echo "Triggered by branch: ${triggerBranch}"
-                    
-                    // You can save this information to a file, send it to an external system,
-                    // or use it for any other purpose as needed in your pipeline
-                    writeFile file: 'trigger_branch.txt', text: "${triggerBranch}"
-                }
-            }
-        }
+  agent any
 
-        stage('Checkout') {
-            steps {
-                // Checkout the code from GitHub for specific branches
-                checkout([$class: 'GitSCM', branches: [[name: 'refs/heads/master'], [name: 'refs/heads/dev']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
-            }
+  stages {
+    // Record the triggering branch (adjusted to use env.BRANCH_NAME)
+    stage('Record Trigger Branch') {
+      steps {
+        script {
+          def triggerBranch = env.BRANCH_NAME
+          echo "Triggered by branch: ${triggerBranch}"
+
+          // Use or save the branch name here as needed
+          writeFile file: 'trigger_branch.txt', text: "${triggerBranch}"
         }
-        
-        stage('Print Workspace') {
-            steps {
-                echo "Workspace contents:"
-                sh "ls -la"
-            }
-        }
-        
-        stage('Install Dependencies') {
-            steps {
-                // Install npm dependencies
-                sh 'npm install'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                echo "Building on ${params.ENVIRONMENT} environment"
-                sh "echo ENVIRONMENT: ${params.ENVIRONMENT}"
-                    
-                // Run Webpack to bundle the application
-                sh 'webpack --config webpack.config.js'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                // Run tests if applicable
-                sh 'npm test'
-            }
-        }
-        
-        stage('Build Image through Kaniko') {
-            steps {
-                echo "Build Image through Kaniko"
-                // Add Kaniko build steps here
-            }
-        }
-        
-        stage('Push Artifact to Nexus Repo') {
-            steps {
-                echo "Push Artifact to Nexus Repo"
-                // Add Nexus artifact push steps here
-            }
-        }
-        
-        stage('Deployment in EKS through Helm') {
-            steps {
-                echo "Current branch name: ${env.BRANCH_NAME}"
-                echo "Deployment in EKS through Helm"
-                // Add deployment steps here
-            }
-        }
+      }
     }
+
+    // Checkout code for all branches (no filtering)
+    stage('Checkout') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*']], userRemoteConfigs: [[url: 'https://github.com/adwaitpawar/battleships.git']]])
+      }
+    }
+
+    // Print workspace contents (optional)
+    stage('Print Workspace (Optional)') {
+      when {
+        expression {
+          // Only run this stage if you need to see workspace contents
+          return params.PRINT_WORKSPACE
+        }
+      }
+      steps {
+        echo "Workspace contents:"
+        sh "ls -la"
+      }
+    }
+
+    // Install dependencies
+    stage('Install Dependencies') {
+      steps {
+        sh 'npm install'
+      }
+    }
+
+    // Build using environment parameter
+    stage('Build') {
+      steps {
+        echo "Building on ${params.ENVIRONMENT} environment"
+        sh "echo ENVIRONMENT: ${params.ENVIRONMENT}"
+
+        sh 'webpack --config webpack.config.js'
+      }
+    }
+
+    // Run tests (if applicable)
+    stage('Test') {
+      steps {
+        sh 'npm test'
+      }
+    }
+
+    // Build image with Kaniko (add steps here)
+    stage('Build Image through Kaniko') {
+      steps {
+        // Add your Kaniko build steps here
+      }
+    }
+
+    // Push artifact to Nexus repository (add steps here)
+    stage('Push Artifact to Nexus Repo') {
+      steps {
+        // Add your Nexus artifact push steps here
+      }
+    }
+
+    // Deployment in EKS with Helm (add steps here)
+    stage('Deployment in EKS through Helm') {
+      steps {
+        echo "Current branch name: ${env.BRANCH_NAME}"
+        echo "Deployment in EKS through Helm"
+        // Add your Helm deployment steps here
+      }
+    }
+  }
+
+  // Optional parameters for environment and printing workspace contents
+  parameters {
+    booleanParam(name: 'PRINT_WORKSPACE', defaultValue: false, description: 'Print workspace contents?')
+    choiceParam(name: 'ENVIRONMENT', choices: ['development', 'staging', 'production'], description: 'Build environment')
+  }
 }
