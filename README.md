@@ -14,7 +14,7 @@ In this walkthrough we will   :
 - display results based on who has sunk whos ship
 - display the winner
 
-This tutorial will be in pure JavaScript, so no canvas will be used.
+This tutorial will be in pure JavaScript, so no canvas will beed.
 
 We will not be focusing too much on the styling, this video will be all about the logic of the game. Please watch the next two videos in the series to have a completed multiplayer version that is styled.
 
