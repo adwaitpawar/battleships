@@ -1,0 +1,22 @@
+
+
+replicaCount: 3
+
+image:
+  repository: mullaafiya/battleshipsimg
+  tag: latest
+
+service:
+  type: LoadBalancer
+  port: 80
+
+# Add any additional configuration parameters here
+
+serviceAccount:
+  create: false
+
+ingress:
+  enabled: false
+
+autoscaling:
+  enabled: false  
