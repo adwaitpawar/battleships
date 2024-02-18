@@ -1,0 +1,5 @@
+{
+  "insecure-registries": [
+    "aws-elb-859218784.ap-south-1.elb.amazonaws.com:8081"
+  ]
+}
