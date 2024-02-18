@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    args:
+    - "--context=git://github.com/adwaitpawar/battleships.git"
+    - "--destination=http://aws-elb-859218784.ap-south-1.elb.amazonaws.com:8081/repository/battleship/"
+  restartPolicy: Never
+  volumes:
+  - name: kaniko-secret
+    secret:
+      secretName: regcred
+---
